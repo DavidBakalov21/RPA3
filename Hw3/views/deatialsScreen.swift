@@ -52,12 +52,18 @@ class StudentDetails: UIViewController {
                 
                 return imageView
     }()
-    
-    let subjectTable = UITableView()
+    // Subjects
+    let subjectTable: UITableView = {
+        let tableView=UITableView()
+        tableView.register(SubjectCell.self, forCellReuseIdentifier: "subjectCard")
+        return tableView
+    }()
     
     init(student: Student) {
         self.student = student
         super.init(nibName: nil, bundle: nil)
+        subjectTable.delegate = self
+        subjectTable.dataSource = self
         ageText.text="age:"
         scoreText.text="score:"
         addressText.text="address:"
@@ -88,6 +94,7 @@ class StudentDetails: UIViewController {
         view.addSubview(studentImage)
         view.addSubview(addressText)
         view.addSubview(addressValue)
+        view.addSubview(subjectTable)
     }
     private func setupUI() {
         nameVal.text = {
@@ -186,5 +193,38 @@ class StudentDetails: UIViewController {
             $0.width.equalTo(60)
             $0.height.equalTo(60)
         }
+        subjectTable.snp.makeConstraints {
+            $0.top.equalTo(addressText.snp.bottom).offset(30)
+            $0.leading.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview()
+        }
+    }
+}
+extension StudentDetails: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        student.subjects?.count ?? 0
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "subjectCard",
+                                                       for: indexPath) as? SubjectCell else {
+            return UITableViewCell()
+        }
+        if let subj = student.subjects, let score = student.scores {
+            let cleanArray = subj.compactMap { $0 }
+            let cleanDict = score.compactMapValues { $0 }
+            cell.setupCell(score: cleanDict[cleanArray[indexPath.row]] ?? 0, name: cleanArray[indexPath.row])
+            
+            return cell
+        } else {
+            return UITableViewCell()
+        }
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       // _outputPublisher.send(.studentSelected(names![indexPath.row]))
     }
 }
