@@ -5,10 +5,10 @@
 //  Created by david david on 24.10.2024.
 //
 
-
 import Foundation
 import UIKit
 import Combine
+import SnapKit
 final class Coordinator {
     
     let rootViewController: UINavigationController
@@ -20,13 +20,14 @@ final class Coordinator {
     }
     
     func start() {
-        let mainViewController = MenuListViewController(drinks: MenuFetcher.shared.fetchMenu())
+        let parser=StudentParser(jsonData: "store")
+        let mainViewController = StudentListViewController(studs: parser.parseJson()!)
         
         mainViewController.outputPublisher
             .sink { [weak self] message in
                 switch message {
-                case let .drinkSelected(drink):
-                    self?.showDetailsViewController(with: drink)
+                case let .studentSelected(student):
+                    self?.showDetailsViewController(with: student)
                 }
             }
             .store(in: &cancellable)
@@ -34,19 +35,19 @@ final class Coordinator {
         rootViewController.pushViewController(mainViewController, animated: true)
     }
                    
-    func showDetailsViewController(with drink: Drink) {
+    func showDetailsViewController(with student: Student) {
+        
+        let sss = StudentDetails(student: student)
            let controller = UIViewController()
+        let titleText=UILabel()
+        titleText.text=student.name
+        controller.view.addSubview(titleText)
         controller.view.backgroundColor = .red
-        rootViewController.pushViewController(controller, animated: true)
+        titleText.snp.makeConstraints {
+            $0.top.equalTo(controller.view.safeAreaLayoutGuide.snp.top)
+            $0.centerX.equalToSuperview()
+        }
+        
+        rootViewController.pushViewController(sss, animated: true)
     }
 }
-
-
-
-
-
-
-
-
-
-

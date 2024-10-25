@@ -14,6 +14,7 @@ final class StudentCard: UITableViewCell {
         
         return label
     }()
+    
     let ageValueLabel: UILabel = {
         let label = UILabel()
         

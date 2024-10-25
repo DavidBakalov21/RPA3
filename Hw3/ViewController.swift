@@ -7,35 +7,16 @@
 
 import UIKit
 import SnapKit
+import Combine
 
-final class StudentParser {
-    var jsonData: String
-    struct JSONStruct: Codable {
-            let students: [Student]
-        }
-    init(jsonData: String) {
-           self.jsonData = jsonData
-       }
-    public func parseJson() -> [Student]? {
-        // https://stackoverflow.com/questions/24410881/reading-in-a-json-file-using-swift
-        if let jsonUrl = Bundle.main.url(forResource: jsonData, withExtension: "json") {
-            do {
-                let data = try Data(contentsOf: jsonUrl)
-           
-                let students = try JSONDecoder().decode(JSONStruct.self, from: data)
-                let finalRes = students.students
-                return finalRes
-            } catch {
-                return nil
-            }
-        } else {
-            return nil
-        }
-         
-        }
+enum StudentListViewControllerOutputMessage {
+    case studentSelected(Student)
 }
-
-class ViewController: UIViewController {
+class StudentListViewController: UIViewController {
+    private let _outputPublisher = PassthroughSubject<StudentListViewControllerOutputMessage, Never>()
+        var outputPublisher: AnyPublisher<StudentListViewControllerOutputMessage, Never> {
+            _outputPublisher.eraseToAnyPublisher()
+        }
     let tableView: UITableView = {
         let tableView=UITableView()
         tableView.register(StudentCard.self, forCellReuseIdentifier: "studentCard")
@@ -43,9 +24,16 @@ class ViewController: UIViewController {
     }()
     let titleText=UILabel()
     var names: [Student]?
+    init(studs: [Student]) {
+        self.names = studs
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
-        let parser=StudentParser(jsonData: "store")
-        names = parser.parseJson()
        // https://stackoverflow.com/questions/24356888/how-do-i-change-the-font-size-of-a-uilabel-in-swift
         super.viewDidLoad()
         tableView.delegate = self
@@ -69,7 +57,7 @@ class ViewController: UIViewController {
     }
 
 }
-extension ViewController: UITableViewDataSource {
+extension StudentListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         names!.count
     }
@@ -86,10 +74,7 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
     }
-}
-
-    extension ViewController: UITableViewDelegate {
-        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-           
-        }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        _outputPublisher.send(.studentSelected(names![indexPath.row]))
     }
+}
