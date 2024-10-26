@@ -20,7 +20,7 @@ final class Coordinator {
     }
     
     func start() {
-        let parser=StudentParser(jsonData: "store")
+        let parser = StudentParser(jsonData: "store")
         let mainViewController = StudentListViewController(studs: parser.parseJson()!)
         
         mainViewController.outputPublisher
@@ -37,17 +37,22 @@ final class Coordinator {
                    
     func showDetailsViewController(with student: Student) {
         
-        let sss = StudentDetails(student: student)
-           let controller = UIViewController()
-        let titleText=UILabel()
-        titleText.text=student.name
-        controller.view.addSubview(titleText)
-        controller.view.backgroundColor = .red
-        titleText.snp.makeConstraints {
-            $0.top.equalTo(controller.view.safeAreaLayoutGuide.snp.top)
-            $0.centerX.equalToSuperview()
-        }
+        let detailsController = StudentDetails(student: student)
         
-        rootViewController.pushViewController(sss, animated: true)
+        detailsController.outputPublisher
+            .sink { [weak self] message in
+                switch message {
+                case let .subjectSelected(student):
+                    self?.showSubjectController(with: student)
+                }
+            }
+            .store(in: &cancellable)
+        rootViewController.pushViewController(detailsController, animated: true)
+    }
+    
+    func showSubjectController(with subject: String) {
+        let parser = StudentParser(jsonData: "store")
+        let subjectController = SubjectStudent(subject: subject, students: parser.parseJson()!)
+        rootViewController.pushViewController(subjectController, animated: true)
     }
 }

@@ -18,11 +18,11 @@ class StudentListViewController: UIViewController {
             _outputPublisher.eraseToAnyPublisher()
         }
     let tableView: UITableView = {
-        let tableView=UITableView()
+        let tableView = UITableView()
         tableView.register(StudentCard.self, forCellReuseIdentifier: "studentCard")
         return tableView
     }()
-    let titleText=UILabel()
+    let titleText = UILabel()
     var names: [Student]?
     init(studs: [Student]) {
         self.names = studs
@@ -39,7 +39,7 @@ class StudentListViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        titleText.text="Students"
+        titleText.text = "Students"
         titleText.font = titleText.font.withSize(30)
         view.backgroundColor = UIColor.white
         view.addSubview(tableView)

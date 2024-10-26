@@ -25,6 +25,7 @@
 		A570C0352CCA8A8F00663284 /* navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A570C0342CCA8A8F00663284 /* navigator.swift */; };
 		A570C0372CCA8D1700663284 /* jsonLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A570C0362CCA8D1700663284 /* jsonLoader.swift */; };
 		A570C0392CCA954900663284 /* deatialsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A570C0382CCA954900663284 /* deatialsScreen.swift */; };
+		A5E9FF182CCC086D00858490 /* subjectStudents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E9FF172CCC086D00858490 /* subjectStudents.swift */; };
 		A5F0FAA12CCBD9BF00292941 /* subjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F0FAA02CCBD9BF00292941 /* subjectCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,7 @@
 		A570C0342CCA8A8F00663284 /* navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = navigator.swift; sourceTree = "<group>"; };
 		A570C0362CCA8D1700663284 /* jsonLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jsonLoader.swift; sourceTree = "<group>"; };
 		A570C0382CCA954900663284 /* deatialsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deatialsScreen.swift; sourceTree = "<group>"; };
+		A5E9FF172CCC086D00858490 /* subjectStudents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = subjectStudents.swift; sourceTree = "<group>"; };
 		A5F0FAA02CCBD9BF00292941 /* subjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = subjectCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -184,6 +186,7 @@
 				A558A3F22CC656FB000404D2 /* StudentCard.swift */,
 				A570C0382CCA954900663284 /* deatialsScreen.swift */,
 				A5F0FAA02CCBD9BF00292941 /* subjectCell.swift */,
+				A5E9FF172CCC086D00858490 /* subjectStudents.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 			files = (
 				A558A3BB2CC5ACBC000404D2 /* ViewController.swift in Sources */,
 				A558A3F32CC656FB000404D2 /* StudentCard.swift in Sources */,
+				A5E9FF182CCC086D00858490 /* subjectStudents.swift in Sources */,
 				A558A3B72CC5ACBC000404D2 /* AppDelegate.swift in Sources */,
 				A5F0FAA12CCBD9BF00292941 /* subjectCell.swift in Sources */,
 				A570C0352CCA8A8F00663284 /* navigator.swift in Sources */,

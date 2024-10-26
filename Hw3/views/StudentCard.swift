@@ -66,19 +66,14 @@ final class StudentCard: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             
-        ageLabel.text="Age:"
-        scoreLabel.text="Score:"
-        scholarshipLabel.text="Scholarship:"
+        ageLabel.text = "Age:"
+        scoreLabel.text = "Score:"
+        scholarshipLabel.text = "Scholarship:"
         setupView()
         setupLayout()
         }
     init() {
         super.init(style: .default, reuseIdentifier: "studentCard")
-        ageLabel.text="Age:"
-        scoreLabel.text="Score:"
-        scholarshipLabel.text="Scholarship:"
-        setupView()
-        setupLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -162,7 +157,7 @@ final class StudentCard: UITableViewCell {
         scoreValueLabel.text = {
             if let scores = student.scores?.values {
                 var scoreFinal = 0
-                var amount=0
+                var amount = 0
                 for score in scores {
                    if let score = score {
                        scoreFinal += score
@@ -174,7 +169,7 @@ final class StudentCard: UITableViewCell {
                return "unknown"
             }
         }()
-        scholarshipSign.backgroundColor={
+        scholarshipSign.backgroundColor = {
             if let scholarship = student.hasScholarship {
                 return scholarship ? .green : .red
             } else {

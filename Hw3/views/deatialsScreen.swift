@@ -8,23 +8,31 @@
 import Foundation
 import UIKit
 import SnapKit
+import Combine
+enum StudDetailsViewControllerOutputMessage {
+    case subjectSelected(String)
+}
 
 class StudentDetails: UIViewController {
+    private let _outputPublisher = PassthroughSubject<StudDetailsViewControllerOutputMessage, Never>()
+        var outputPublisher: AnyPublisher<StudDetailsViewControllerOutputMessage, Never> {
+            _outputPublisher.eraseToAnyPublisher()
+        }
     let student: Student
     // name
-    let nameVal=UILabel()
+    let nameVal = UILabel()
     
     // age
-    let ageText=UILabel()
-    let ageValue=UILabel()
+    let ageText = UILabel()
+    let ageValue = UILabel()
     
     // score
-    let scoreText=UILabel()
-    let scoreValue=UILabel()
+    let scoreText = UILabel()
+    let scoreValue = UILabel()
     
     // address
-    let addressText=UILabel()
-    let addressValue=UILabel()
+    let addressText = UILabel()
+    let addressValue = UILabel()
     
     // schollarship
     let scholarshipSign: UIView = {
@@ -54,7 +62,7 @@ class StudentDetails: UIViewController {
     }()
     // Subjects
     let subjectTable: UITableView = {
-        let tableView=UITableView()
+        let tableView = UITableView()
         tableView.register(SubjectCell.self, forCellReuseIdentifier: "subjectCard")
         return tableView
     }()
@@ -64,9 +72,9 @@ class StudentDetails: UIViewController {
         super.init(nibName: nil, bundle: nil)
         subjectTable.delegate = self
         subjectTable.dataSource = self
-        ageText.text="age:"
-        scoreText.text="score:"
-        addressText.text="address:"
+        ageText.text = "age:"
+        scoreText.text = "score:"
+        addressText.text = "address:"
         nameVal.font = nameVal.font.withSize(45)
         
         ageText.font = nameVal.font.withSize(20)
@@ -98,18 +106,18 @@ class StudentDetails: UIViewController {
     }
     private func setupUI() {
         nameVal.text = {
-            if let name=student.name {
+            if let name = student.name {
                 return name
             } else {
                 return "unknown"
             }
         }()
         ageValue.text = {
-            if let age=student.age {
-            return String(age)
-        } else {
-            return "unknown"
-        }
+            if let age = student.age {
+                return String(age)
+            } else {
+                return "unknown"
+            }
         }()
         scoreValue.text = {
             if let scores = student.scores?.values {
@@ -225,6 +233,7 @@ extension StudentDetails: UITableViewDelegate, UITableViewDataSource {
         return 50
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       // _outputPublisher.send(.studentSelected(names![indexPath.row]))
+        
+        _outputPublisher.send(.subjectSelected(student.subjects?[indexPath.row] ?? ""))
     }
 }

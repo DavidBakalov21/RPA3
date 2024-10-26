@@ -52,8 +52,8 @@ class SubjectCell: UITableViewCell {
     }
     
     func setupCell( score: Int, name: String) {
-        subjectLabel.text = name+":"
-        scoreLabel.text = " "+String(score)
+        subjectLabel.text = name+": "
+        scoreLabel.text = String(score)
     }
 
 }
