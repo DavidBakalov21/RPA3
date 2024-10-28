@@ -45,6 +45,18 @@ final class StudentCard: UITableViewCell {
         
         return label
     }()
+    // https://stackoverflow.com/questions/41475501/creating-a-shadow-for-a-uiimageview-that-has-rounded-corners
+    let imageContainer: UIView = {
+        let view = UIView()
+        view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        view.clipsToBounds = false
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = CGSize.zero
+        view.layer.shadowRadius = 10
+        view.layer.shadowPath = UIBezierPath(roundedRect: view.bounds, cornerRadius: 40).cgPath
+        return view
+    }()
     // https://developer.apple.com/documentation/swift/array/randomelement()
     let studentImage: UIImageView = {
         let imageView = UIImageView()
@@ -81,7 +93,7 @@ final class StudentCard: UITableViewCell {
     }
     
     private func setupLayout() {
-        studentImage.snp.makeConstraints {
+        imageContainer.snp.makeConstraints {
             
             $0.leading.equalToSuperview().offset(10)
             $0.top.equalToSuperview().offset(10)
@@ -89,14 +101,16 @@ final class StudentCard: UITableViewCell {
             $0.height.equalTo(90)
             
         }
-        
+        studentImage.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         nameLabel.snp.makeConstraints {
-            $0.leading.equalTo(studentImage.snp.trailing).offset(30)
+            $0.leading.equalTo(imageContainer.snp.trailing).offset(30)
             $0.top.equalToSuperview().offset(20)
       
         }
         ageLabel.snp.makeConstraints {
-            $0.leading.equalTo(studentImage.snp.trailing).offset(30)
+            $0.leading.equalTo(imageContainer.snp.trailing).offset(30)
             $0.top.equalTo(nameLabel.snp.bottom).offset(5)
       
         }
@@ -116,7 +130,7 @@ final class StudentCard: UITableViewCell {
             $0.top.equalTo(nameLabel.snp.bottom).offset(5)
         }
         scholarshipLabel.snp.makeConstraints {
-            $0.leading.equalTo(studentImage.snp.trailing).offset(30)
+            $0.leading.equalTo(imageContainer.snp.trailing).offset(30)
             $0.top.equalTo(ageLabel.snp.bottom).offset(5)
         }
         scholarshipSign.snp.makeConstraints {
@@ -136,7 +150,8 @@ final class StudentCard: UITableViewCell {
         addSubview(ageValueLabel)
         addSubview(scholarshipLabel)
         addSubview(scholarshipSign)
-        addSubview(studentImage)
+        addSubview(imageContainer)
+        imageContainer.addSubview(studentImage)
     }
     
     func setupCell(with student: Student) {

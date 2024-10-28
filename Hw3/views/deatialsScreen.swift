@@ -67,6 +67,17 @@ class StudentDetails: UIViewController {
         return tableView
     }()
     
+    let imageContainer: UIView = {
+        let view = UIView()
+        view.frame = CGRect(x: 0, y: 0, width: 300, height: 100)
+        view.clipsToBounds = false
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = CGSize(width: 0, height: 230)
+        view.layer.shadowRadius = 20
+        view.layer.shadowPath = UIBezierPath(roundedRect: view.bounds, cornerRadius: 10).cgPath
+        return view
+    }()
     init(student: Student) {
         self.student = student
         super.init(nibName: nil, bundle: nil)
@@ -103,6 +114,8 @@ class StudentDetails: UIViewController {
         view.addSubview(addressText)
         view.addSubview(addressValue)
         view.addSubview(subjectTable)
+        view.addSubview(imageContainer)
+        imageContainer.addSubview(studentImage)
     }
     private func setupUI() {
         nameVal.text = {
@@ -154,16 +167,19 @@ class StudentDetails: UIViewController {
     }
     private func makeConstraints() {
         
-        studentImage.snp.makeConstraints {
+        imageContainer.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.width.equalTo(310)
             $0.height.equalTo(310)
         }
         
+        studentImage.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         nameVal.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
-            $0.top.equalTo(studentImage.snp.bottom).offset(20)
+            $0.top.equalTo(imageContainer.snp.bottom).offset(20)
         }
         
         ageText.snp.makeConstraints {
